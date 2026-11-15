@@ -1,0 +1,29 @@
+{
+  "name": "killora-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Killora Bot - Discord community management bot with dashboard, moderation, tickets, invites, music and automation",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "deploy:commands": "node src/deploy-commands.js",
+    "start:hosting": "node src/index.js",
+    "check": "node scripts/check.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "connect-mongo": "^5.1.0",
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.6.1",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.9.5",
+    "multer": "^1.4.5-lts.2",
+    "shoukaku": "^4.3.0",
+    "ws": "^8.18.0"
+  }
+}

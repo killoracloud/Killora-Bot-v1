@@ -1,0 +1,36 @@
+require('dotenv').config();
+const {REST,Routes,SlashCommandBuilder}=require('discord.js');
+const commands=[
+ new SlashCommandBuilder().setName('ask').setDescription('Ask Killora AI powered by Gemini').addStringOption(o=>o.setName('prompt').setDescription('Your question').setRequired(true)),
+ new SlashCommandBuilder().setName('ping').setDescription('Check bot latency'),
+ new SlashCommandBuilder().setName('botinfo').setDescription('Show bot information'),
+ new SlashCommandBuilder().setName('serverinfo').setDescription('Show this server information'),
+ new SlashCommandBuilder().setName('userinfo').setDescription('Show user information').addUserOption(o=>o.setName('user').setDescription('User')),
+ new SlashCommandBuilder().setName('avatar').setDescription('Show a user avatar').addUserOption(o=>o.setName('user').setDescription('User')),
+ new SlashCommandBuilder().setName('purge').setDescription('Delete recent messages').addIntegerOption(o=>o.setName('amount').setDescription('1 to 100').setMinValue(1).setMaxValue(100).setRequired(true)),
+ new SlashCommandBuilder().setName('kick').setDescription('Kick a member').addUserOption(o=>o.setName('user').setDescription('Member').setRequired(true)).addStringOption(o=>o.setName('reason').setDescription('Reason')),
+ new SlashCommandBuilder().setName('ban').setDescription('Ban a member').addUserOption(o=>o.setName('user').setDescription('Member').setRequired(true)).addStringOption(o=>o.setName('reason').setDescription('Reason')),
+ new SlashCommandBuilder().setName('timeout').setDescription('Timeout a member').addUserOption(o=>o.setName('user').setDescription('Member').setRequired(true)).addIntegerOption(o=>o.setName('minutes').setDescription('1 to 40320').setMinValue(1).setMaxValue(40320).setRequired(true)).addStringOption(o=>o.setName('reason').setDescription('Reason')),
+ new SlashCommandBuilder().setName('warn').setDescription('Warn a member').addUserOption(o=>o.setName('user').setDescription('Member').setRequired(true)).addStringOption(o=>o.setName('reason').setDescription('Reason').setRequired(true)),
+ new SlashCommandBuilder().setName('warnings').setDescription('View a member warning count').addUserOption(o=>o.setName('user').setDescription('Member').setRequired(true)),
+ new SlashCommandBuilder().setName('poll').setDescription('Create a yes/no poll').addStringOption(o=>o.setName('question').setDescription('Question').setRequired(true)),
+ new SlashCommandBuilder().setName('giveaway').setDescription('Start a giveaway').addStringOption(o=>o.setName('prize').setDescription('Prize').setRequired(true)).addIntegerOption(o=>o.setName('minutes').setDescription('1 to 10080').setMinValue(1).setMaxValue(10080).setRequired(true)).addIntegerOption(o=>o.setName('winners').setDescription('1 to 20').setMinValue(1).setMaxValue(20)),
+ new SlashCommandBuilder().setName('leaderboard').setDescription('Show the server XP leaderboard'),
+ new SlashCommandBuilder().setName('level').setDescription('Show your level').addUserOption(o=>o.setName('user').setDescription('User')),
+ new SlashCommandBuilder().setName('8ball').setDescription('Ask the magic 8-ball').addStringOption(o=>o.setName('question').setDescription('Question').setRequired(true)),
+ new SlashCommandBuilder().setName('coinflip').setDescription('Flip a coin'),
+ new SlashCommandBuilder().setName('snipe').setDescription('Show the last deleted message in this channel'),
+ new SlashCommandBuilder().setName('suggest').setDescription('Submit a server suggestion').addStringOption(o=>o.setName('suggestion').setDescription('Your suggestion').setRequired(true)),
+ new SlashCommandBuilder().setName('balance').setDescription('View a member wallet and bank').addUserOption(o=>o.setName('user').setDescription('Member')),
+ new SlashCommandBuilder().setName('daily').setDescription('Claim your daily coins'),
+ new SlashCommandBuilder().setName('work').setDescription('Earn coins by working'),
+ new SlashCommandBuilder().setName('deposit').setDescription('Deposit coins into your bank').addIntegerOption(o=>o.setName('amount').setDescription('Amount').setMinValue(1).setRequired(true)),
+ new SlashCommandBuilder().setName('withdraw').setDescription('Withdraw coins from your bank').addIntegerOption(o=>o.setName('amount').setDescription('Amount').setMinValue(1).setRequired(true)),
+ new SlashCommandBuilder().setName('pay').setDescription('Pay coins to a member').addUserOption(o=>o.setName('user').setDescription('Recipient').setRequired(true)).addIntegerOption(o=>o.setName('amount').setDescription('Amount').setMinValue(1).setRequired(true)),
+ new SlashCommandBuilder().setName('apply').setDescription('Submit a staff application'),
+ new SlashCommandBuilder().setName('backup').setDescription('Export this server bot configuration (owner/admin only)'),
+ ...['play','pause','resume','skip','stop','queue','loop','shuffle','nowplaying'].map(name=>{const c=new SlashCommandBuilder().setName(name).setDescription(({play:'Play a song or YouTube URL',pause:'Pause playback',resume:'Resume playback',skip:'Skip current track',stop:'Stop playback and clear queue',queue:'Show the music queue',loop:'Cycle track/queue loop mode',shuffle:'Shuffle upcoming tracks',nowplaying:'Show current track'})[name]);if(name==='play')c.addStringOption(o=>o.setName('query').setDescription('Song name or direct URL').setRequired(true));return c;}),
+ new SlashCommandBuilder().setName('volume').setDescription('Set music volume').addIntegerOption(o=>o.setName('amount').setDescription('0 to 200').setMinValue(0).setMaxValue(200).setRequired(true)),
+ new SlashCommandBuilder().setName('filter').setDescription('Apply an audio effect to the currently playing song').addStringOption(o=>o.setName('preset').setDescription('Choose an audio filter').setRequired(true).addChoices(...[['clear','clear'],['8d','8d'],['tremolo','tremolo'],['vibrato','vibrato'],['bassboost','bassboost'],['bass2x','bass2x'],['bass4x','bass4x'],['nightcore','nightcore'],['vaporwave','vaporwave'],['slowed','slowed'],['8d+tremolo','8d+tremolo'],['karaoke','karaoke'],['chipmunk','chipmunk'],['deep','deep'],['treble','treble'],['pop','pop'],['rock','rock'],['electronic','electronic'],['soft','soft'],['lowpass','lowpass'],['mono','mono'],['8d+nightcore','8d+nightcore']].map(([name,value])=>({name,value}))))
+].map(c=>c.toJSON());
+module.exports=commands;

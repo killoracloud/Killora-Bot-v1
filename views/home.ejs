@@ -1,0 +1,6 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Login | Killora Bot</title><link rel="stylesheet" href="/style.css"></head>
+<body><main class="hero"><div class="tag">KILLORA BOT // CONTROL CENTER</div><h1>Admin <span>sign in.</span></h1><p>Enter your administrator password to access the control panel.</p>
+<% if (typeof error !== 'undefined' && error) { %><p role="alert" style="color:#ff7777"><%= error %></p><% } %>
+<% if(user){ %><a class="btn" href="/dashboard">Open Dashboard</a><% } else { %><form method="post" action="/login" class="login-form"><label for="password">Admin password</label><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="256"><button class="btn" type="submit">Login</button></form><% } %>
+<small>Private administrator access • Discord bot dashboard</small></main></body></html>

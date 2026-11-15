@@ -1,0 +1,5 @@
+const fs=require('fs');const path=require('path');const ROOT=path.join(__dirname,'../plugins');const loaded=new Map();
+function list(){fs.mkdirSync(ROOT,{recursive:true});return fs.readdirSync(ROOT,{withFileTypes:true}).filter(x=>x.isDirectory()).map(x=>{const p=path.join(ROOT,x.name,'plugin.json');try{return {...JSON.parse(fs.readFileSync(p,'utf8')),id:x.name,enabled:loaded.has(x.name)}}catch{return {id:x.name,valid:false,enabled:loaded.has(x.name)}}});}
+async function enable(id,client){if(!/^[a-z0-9_-]{1,40}$/i.test(id))throw Error('Invalid plugin id');const dir=path.resolve(ROOT,id);if(!dir.startsWith(ROOT+path.sep))throw Error('Invalid plugin path');const meta=JSON.parse(fs.readFileSync(path.join(dir,'plugin.json'),'utf8'));if(meta.trusted!==true)throw Error('Plugin must be explicitly marked trusted in plugin.json');const mod=require(path.join(dir,'index.js'));if(typeof mod.init!=='function')throw Error('Plugin must export init(client)');await mod.init(client);loaded.set(id,mod);return meta;}
+async function disable(id){const mod=loaded.get(id);if(mod?.destroy)await mod.destroy();loaded.delete(id);return true;}
+module.exports={list,enable,disable};

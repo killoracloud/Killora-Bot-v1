@@ -1,0 +1,2 @@
+const mongoose=require('mongoose');
+module.exports=mongoose.model('Automation',new mongoose.Schema({guildId:{type:String,index:true},name:{type:String,default:'Workflow'},trigger:{type:String,enum:['messageContains','memberJoin','memberLeave'],required:true},match:{type:String,default:''},channelId:String,enabled:{type:Boolean,default:true},actions:[{type:{type:String,enum:['sendMessage','addRole'],required:true},channelId:String,roleId:String,content:String}]},{timestamps:true}));

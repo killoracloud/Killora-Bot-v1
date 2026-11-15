@@ -1,0 +1,2 @@
+const mongoose=require('mongoose');
+module.exports=mongoose.model('CustomCommand',new mongoose.Schema({guildId:{type:String,required:true,index:true},name:{type:String,required:true,lowercase:true,trim:true,maxlength:32},response:{type:String,required:true,maxlength:1900},enabled:{type:Boolean,default:true},cooldownSeconds:{type:Number,default:3,min:0,max:3600}},{timestamps:true, versionKey:false}));
